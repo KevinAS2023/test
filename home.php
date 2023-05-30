@@ -75,7 +75,7 @@
 		
 		
 		<?php
-if (!isset($_SESSION['CUSID'])){
+if (isset($_SESSION['CUSID'])){
 
 	?>
           <div class="recommended_items"><!--recommended_items-->
@@ -222,7 +222,7 @@ $res = $mydb->loadResultList();
 
 			?>		 
 <?php
-if (isset($_SESSION['CUSID'])){
+if (!isset($_SESSION['CUSID'])){
 	?>
           <div class="recommended_items"><!--recommended_items-->
             <h2 class="title text-center">Produk Terekomendasi</h2>
