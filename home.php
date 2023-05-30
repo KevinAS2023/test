@@ -1,57 +1,4 @@
-<?php
-if (!isset($_SESSION['USERID'])){
-	?>
-          <div class="recommended_items"><!--recommended_items-->
-            <h2 class="title text-center">Produk Terekomendasi</h2>
-            
-            <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
-              <div class="carousel-inner">
-                <div class="item active"> 
-<?php
-$query = 'SELECT tblproduct.*, tblpromopro.*
-FROM tblproduct
-LEFT JOIN tblpromopro
-ON tblproduct.PROID = tblpromopro.PROID
-WHERE tblproduct.PRODESC IN (SELECT atribut1 FROM itemset3 UNION SELECT atribut2 FROM itemset3 UNION SELECT atribut3 FROM itemset3)';
-$mydb->setQuery($query);
-$res = $mydb->loadResultList();
 
-                    foreach ($res as $result) { 
-                  ?>
-                      <form   method="POST" action="cart/controller.php?action=add">
-            <input type="hidden" name="PROPRICE" value="<?php  echo $result->PROPRICE; ?>">
-            <input type="hidden" id="PROQTY" name="PROQTY" value="<?php  echo $result->PROQTY; ?>">
-
-            <input type="hidden" name="PROID" value="<?php  echo $result->PROID; ?>">
-                  <div class="col-sm-4">
-                    <div class="product-image-wrapper">
-                      <div class="single-products">
-                        <div class="productinfo text-center">
-                          <img src="<?php  echo web_root.'admin/products/'. $result->IMAGES; ?>" alt="" style="height:200px;" />
-                          <h2>Rp <?php  echo number_format($result->PRODISPRICE,2, ',', '.'); ?></h2>
-                          <p><?php  echo    $result->PRODESC; ?></p>
-                           <button type="submit" name="btnorder" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-                        </div>
-                        
-                      </div>
-                    </div>
-                  </div>
-                </form>
-                  <?php } ?>
-                </div>
-              </div>
-               <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
-                <i class="fa fa-angle-left"></i>
-                </a>
-                <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
-                <i class="fa fa-angle-right"></i>
-                </a>      
-            </div>
-          </div><!--/recommended_items-->
-		  <?php
-}
-	
-?>
 <section id="slider"><!--slider-->
     <div class="container">
       <div class="row">
@@ -125,6 +72,65 @@ $res = $mydb->loadResultList();
         </div>
         
         <div class="col-sm-9 padding-right">
+		
+		
+		<?php
+if (!isset($_SESSION['CUSID'])){
+
+	?>
+          <div class="recommended_items"><!--recommended_items-->
+            <h2 class="title text-center">Produk Terekomendasi</h2>
+            
+            <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
+              <div class="carousel-inner">
+                <div class="item active"> 
+<?php
+$query = 'SELECT tblproduct.*, tblpromopro.*
+FROM tblproduct
+LEFT JOIN tblpromopro
+ON tblproduct.PROID = tblpromopro.PROID
+WHERE tblproduct.PRODESC IN (SELECT atribut1 FROM itemset3 UNION SELECT atribut2 FROM itemset3 UNION SELECT atribut3 FROM itemset3)';
+$mydb->setQuery($query);
+$res = $mydb->loadResultList();
+
+                    foreach ($res as $result) { 
+                  ?>
+                      <form   method="POST" action="cart/controller.php?action=add">
+            <input type="hidden" name="PROPRICE" value="<?php  echo $result->PROPRICE; ?>">
+            <input type="hidden" id="PROQTY" name="PROQTY" value="<?php  echo $result->PROQTY; ?>">
+
+            <input type="hidden" name="PROID" value="<?php  echo $result->PROID; ?>">
+                  <div class="col-sm-4">
+                    <div class="product-image-wrapper">
+                      <div class="single-products">
+                        <div class="productinfo text-center">
+                          <img src="<?php  echo web_root.'admin/products/'. $result->IMAGES; ?>" alt="" style="height:200px;" />
+                          <h2>Rp <?php  echo number_format($result->PRODISPRICE,2, ',', '.'); ?></h2>
+                          <p><?php  echo    $result->PRODESC; ?></p>
+                           <button type="submit" name="btnorder" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+                        </div>
+                        
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                  <?php } ?>
+                </div>
+              </div>
+               <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
+                <i class="fa fa-angle-left"></i>
+                </a>
+                <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
+                <i class="fa fa-angle-right"></i>
+                </a>      
+            </div>
+          </div><!--/recommended_items-->
+		  <?php
+}
+	
+?>
+		
+		
           <div class="features_items"><!--features_items-->
             <h2 class="title text-center">Produk Unggulan</h2>
 
@@ -174,17 +180,16 @@ $res = $mydb->loadResultList();
                   <ul class="nav nav-pills nav-justified">
                     <li>
                               <?php     
-							  if (isset($_SESSION['USERID'])){
+							  
                             if (isset($_SESSION['CUSID'])){  
 
                               echo ' <a href="'.web_root. 'customer/controller.php?action=addwish&proid='.$result->PROID.'" title="Add to wishlist"><i class="fa fa-plus-square"></i>Add to wishlist</a></a>
                             ';
 
                              }else{
-                               echo   '<a href="#" title="Add to wishlist" class="proid"  data-target="#smyModal" data-toggle="modal" data-id="'.  $result->PROID.'"><i class="fa fa-plus-square"></i>Add to wishlist</a></a>
-                            ';
+                               //echo   '<a href="#" title="Add to wishlist" class="proid"  data-target="#smyModal" data-toggle="modal" data-id="'.  $result->PROID.'"><i class="fa fa-plus-square"></i>Add to wishlist</a></a>';
                             }
-							  }							
+							  						
                             ?>
 
                     </li> 
@@ -217,7 +222,7 @@ $res = $mydb->loadResultList();
 
 			?>		 
 <?php
-if (isset($_SESSION['USERID'])){
+if (isset($_SESSION['CUSID'])){
 	?>
           <div class="recommended_items"><!--recommended_items-->
             <h2 class="title text-center">Produk Terekomendasi</h2>
